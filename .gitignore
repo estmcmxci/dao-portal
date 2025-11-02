@@ -1,0 +1,25 @@
+# Environment variables
+.env
+.env.local
+.env*.local
+
+# Node modules
+node_modules/
+
+# Logs
+*.log
+
+# Secure deployment config (with sensitive keys)
+**/secure-deploy.config.yaml
+**/secure-deploy.config.json
+secure-deploy-config.yaml
+
+# Build outputs (should not be committed)
+**/out/
+**/dist/
+**/.next/
+**/build/
+
+# OS files
+.DS_Store
+Thumbs.db
