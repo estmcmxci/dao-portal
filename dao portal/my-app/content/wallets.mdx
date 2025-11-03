@@ -1,0 +1,54 @@
+---
+
+title: "Wallets Overview"
+description: "Overview of DAO operational contracts and working group multisig wallets"
+icon: 'wallet'
+
+---
+
+## DAO Operational Contracts
+
+The ENS DAO maintains several operational contracts responsible for the collection, custody, and management of protocol revenue and treasury assets. These wallets are integral to the protocol’s on-chain architecture and governance operations.
+
+* **Controller (`controller.ens.eth`)** — Primary contract that collects ETH from `.eth` name registrations and renewals.
+* **ENS Wallet (`wallet.ensdao.eth`)** — Main treasury wallet holding DAO funds across ETH, USDC, and ENS tokens.
+* **Legacy Controller (`0x283A…B7F5`)** — Previous version of the registration controller, still holding legacy funds from historical operations.
+
+These contracts represent the financial backbone of ENS DAO’s on-chain economy, routing registration income and treasury disbursements into the DAO’s governance system.
+
+
+## Working Group Multisigs
+
+ENS DAO’s day-to-day activities are administered through **Working Group (WG) multisigs**. Each WG has a distinct purpose, budget, and signer set composed of elected stewards and secretaries. The multisigs are responsible for allocating resources, funding proposals, and executing DAO-approved initiatives.
+
+### Ecosystem Working Group
+
+* **Main Multisig (`main.eco.wg.ens.eth`)** — Oversees general Ecosystem operations, including grants, integrations, and contributor payments.
+* **IRL Sub-Multisig (`irl.eco.wg.ens.eth`)** — Handles real-world event and community engagement expenses.
+* **Hackathons Sub-Multisig (`hackathons.eco.wg.ens.eth`)** — Manages sponsorships and rewards for hackathon participation.
+* **Newsletter Sub-Multisig (`newsletter.eco.wg.ens.eth`)** — Funds content creation, contributor payments, and DAO communications.
+
+### Meta-Governance Working Group
+
+* **Main Multisig (`main.mg.wg.ens.eth`)** — Manages governance tooling, coordination between working groups, and initiatives like bylaws or process improvements.
+* **Stream Multisig (`stream.mg.wg.ens.eth`)** — Supports continuous funding streams and operational disbursements between Meta-Gov and other DAO entities.
+
+### Public Goods Working Group
+
+* **Main Multisig (`main.pg.wg.ens.eth`)** — Directs grants and funding toward open-source projects and public goods aligned with ENS’s mission.
+* **Large Grants Multisig (`largegrants.pg.wg.ens.eth`)** — Administers larger-scale or recurring public goods grants beyond the scope of regular WG disbursements.
+
+
+## Governance Summary
+
+Each multisig:
+
+* Operates under a **3-of-4 or 2-of-3** signer policy for transaction execution, depending on its scope and sensitivity.
+* Includes both **Stewards** and a **Secretary** to maintain accountability and transparency.
+* Publishes all transactions on-chain, with activity verifiable through dashboards like [enswallets.xyz](https://enswallets.xyz) and Etherscan.
+
+Together, these wallets and multisigs form the **financial and administrative infrastructure** of the ENS DAO — ensuring secure custody, transparent funding, and decentralized operational control across all working groups.
+
+
+
+<Note> To see live balances of operational contracts and working group multisigs, visit [enswallets.xyz](https://enswallets.xyz).</Note>

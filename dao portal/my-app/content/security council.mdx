@@ -1,0 +1,49 @@
+---
+title: "Security Council"
+description: "Overview of the ENS Security Council's purpose and powers."
+icon: 'shield'
+---
+
+<Info> The council was created to address risks from low voter participation relative to the size of the treasury. </Info>
+
+The ENS DAO Security Council is a 4-of-8 Safe multisig with a narrowly defined mandate:
+It can only cancel malicious proposals that threaten the DAO, especially those targeting the treasury.
+
+## Purpose and Powers
+
+The Security Council acts only in emergencies, such as:
+
+- If a proposal violates the [ENS Constitution](https://docs.ens.domains/dao/constitution)
+- If a proposal is malicious and threatens the DAO’s longevity or sustainability
+- If voters are financially incentivized to act against the DAO’s interests
+- If a proposal benefits an attacker at the DAO’s expense
+
+
+The council cannot propose, amend, or initiate governance actions.
+
+## Time-Limited Authority
+
+Two years after deployment, anyone can call `renounceTimelockRoleByExpiration()` to permanently revoke the council’s cancel power, ensuring decentralization over time.
+
+
+
+<Accordion title="Contract Details"> 
+
+- Contract: SecurityCouncil.sol (Etherscan)
+- Cancel function: cancelProposal
+- Multisig: Safe 0xaA5cD05f6B62C3af58AE9c4F3F7A2aCC2Cdc2Cc7
+
+</Accordion>
+
+## Formation and Membership
+
+The Security Council was introduced in [EP5.7](https://docs.ens.domains/dao/proposals/5.7), with further discussion and confirmation in [EP5.10](https://docs.ens.domains/dao/proposals/5.10). The council consists of 8 individuals, operating as a 4-of-8 multisig:
+
+- nick.eth
+- griff.eth
+- avsa.eth
+- lefteris.eth
+- katherineykwu.eth
+- fireeyes.eth
+- brantly.eth
+- alextnetto.eth

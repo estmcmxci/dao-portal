@@ -4,9 +4,10 @@ A decentralized governance documentation portal for the ENS Protocol and DAO. Th
 
 ## 🌐 Live Site
 
-**Production:** [v0.fundamentalia.eth.link](https://v0.fundamentalia.eth.link)
+**Production:** [v7.fundamentalia.eth.link](https://v7.fundamentalia.eth.link)  
+**IPFS Gateway:** [w3s.link/ipfs/...](https://w3s.link/ipfs/bafybeigl7uoodde66w2svovr6jo7dstzriprbwjgeabaircpjixdeu4ucm)
 
-The site is deployed via ENS domains using [Autark CLI](https://github.com/autark-dev/autark) and decentralized storage.
+The site is deployed via ENS domains using [Autark CLI](https://github.com/autark-dev/autark) and decentralized storage (IPFS via Storacha).
 
 ## 🎯 Overview
 
@@ -30,11 +31,21 @@ This documentation portal serves as a comprehensive resource for the ENS DAO com
 
 ```
 basics/
+├── dao portal/          # Source code directory
+│   └── my-app/         # Next.js application
+│       ├── app/         # Next.js app directory (pages, layouts)
+│       ├── components/  # React components
+│       ├── content/     # MDX content files
+│       ├── lib/         # Utility libraries
+│       ├── public/      # Static assets
+│       ├── out/         # Build output (gitignored, generated)
+│       ├── package.json # Dependencies
+│       └── next.config.ts
 ├── launch/              # Deployment directory
-│   ├── out/            # Static build output (not committed)
-│   ├── deploy.sh       # Deployment script (loads .env and deploys)
-│   ├── secure-deploy.config.yaml  # Config template (sensitive values removed)
-│   └── secure-deploy.config.yaml.example  # Example config template
+│   ├── out/            # Deployment build output (gitignored, generated)
+│   ├── deploy.sh       # Deployment script (builds and deploys)
+│   ├── secure-deploy.config.yaml  # Config template (sanitized)
+│   └── secure-deploy.config.*.example  # Example templates
 ├── .env                 # Environment variables (not committed)
 ├── .env.example         # Environment variable template
 ├── .gitignore          # Git ignore rules
@@ -60,8 +71,15 @@ basics/
    cd basics
    ```
 
-2. Set up environment variables:
+2. Install dependencies for the Next.js app:
    ```bash
+   cd "dao portal/my-app"
+   npm install
+   ```
+
+3. Set up environment variables:
+   ```bash
+   cd ../..
    cp .env.example .env
    ```
    Edit `.env` and fill in your sensitive values:
@@ -71,40 +89,77 @@ basics/
    - `SAFE_ADDRESS`: Your Safe wallet address
    - `ENS_DOMAIN`: Your ENS domain (e.g., `fundamentalia.eth`)
 
-3. Configure deployment:
-   - Create `launch/secure-deploy.config.yaml` with your deployment settings
-   - See `.env.example` for required configuration values
+4. Install deployment tools:
+   ```bash
+   npm install -g autark
+   npm install -g @storacha/client
+   ```
+
+### Development
+
+To run the development server:
+
+```bash
+cd "dao portal/my-app"
+npm run dev
+```
+
+The site will be available at `http://localhost:3000`
+
+### Building
+
+To build the static site:
+
+```bash
+cd "dao portal/my-app"
+npm run build
+```
+
+The build output will be in `dao portal/my-app/out/`
 
 ### Deployment
 
-**Option 1: Using the deployment script (Recommended)**
+**Using the deployment script (Recommended)**
 
-The deployment script loads environment variables from `.env` and generates the config file automatically:
+The deployment script automatically builds from source and deploys:
 
 ```bash
 cd launch
 ./deploy.sh
 ```
 
-**Option 2: Manual deployment**
+The script will:
+- ✅ Check if the source has been built (builds automatically if needed)
+- ✅ Copy fresh build output to `launch/out/`
+- ✅ Remove any config files with secrets from build output
+- ✅ Load environment variables from `.env` (root directory)
+- ✅ Validate all required variables are present
+- ✅ Upload to IPFS via Storacha
+- ✅ Deploy via Autark CLI with command-line flags
+- ✅ Create/update ENS subdomain (e.g., `v7.fundamentalia.eth`)
 
-If you prefer to deploy manually:
+**Manual deployment**
+
+If you prefer to deploy manually after building:
 
 ```bash
-cd launch
-# Load environment variables
+# Build first
+cd "dao portal/my-app"
+npm run build
+
+# Then deploy
+cd ../../launch
 export $(grep -v '^#' ../.env | xargs)
-# Generate config.json (or create it manually with values from .env)
-autark deploy --config secure-deploy.config.json
+autark deploy out/ \
+  --ens-domain "${ENS_DOMAIN}" \
+  --safe-address "${SAFE_ADDRESS}" \
+  --owner-private-key "${OWNER_PRIVATE_KEY}" \
+  --rpc-url "${RPC_URL}" \
+  --safe-api-key "${SAFE_API_KEY}" \
+  --network "${NETWORK:-mainnet}"
 ```
 
-The site will be deployed to your configured ENS domain (e.g., `v0.fundamentalia.eth.link`).
-
-**Note**: The deployment script (`deploy.sh`) automatically:
-- Loads environment variables from `.env`
-- Validates all required variables are present
-- Generates `secure-deploy.config.json` with your credentials
-- Runs the Autark CLI deployment
+**Note**: After deployment, you'll need to approve the Safe transaction to set the contenthash. The site will be immediately available on IPFS gateways, and ENS gateways (`.eth.limo`, `.eth.link`) will be available after Safe transaction execution and propagation (5-15 minutes).
 
 ## 🔒 Security
 
@@ -118,9 +173,11 @@ The site will be deployed to your configured ENS domain (e.g., `v0.fundamentalia
 ### Files to Never Commit
 
 - `.env` and `.env.local`
-- `**/secure-deploy.config.yaml`
-- `**/secure-deploy.config.json`
+- `**/secure-deploy.config.yaml` (except `.example` files)
+- `**/secure-deploy.config.json` (except `.example` files)
 - `**/out/` (build outputs)
+- `**/.next/` (Next.js build cache)
+- `**/node_modules/` (dependencies)
 
 ## 📝 Development Log
 
@@ -132,7 +189,7 @@ See [log.md](./log.md) for a detailed development history and milestones.
 - **Working Group Details**: In-depth information about Meta-Governance, Ecosystem, and Public Goods working groups
 - **Token & Delegation Guides**: Complete information about ENS token distribution, delegation process, and voting mechanics
 - **DAO Organization Info**: Details about the ENS Foundation, Security Council, Endowment, and operational wallets
-- **Mobile Responsive Design**: Works seamlessly across all device types
+- **Mobile Responsive Design**: Fully optimized for mobile devices with proper text wrapping and overflow handling
 - **Fully Decentralized**: Hosted on ENS domains using Autark CLI and decentralized storage
 - **Easy Navigation**: Organized categories for Getting Started, Voting, Working Groups, and Organization
 

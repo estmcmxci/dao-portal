@@ -43,30 +43,58 @@ if [ ${#MISSING_VARS[@]} -ne 0 ]; then
     exit 1
 fi
 
-# Generate secure-deploy.config.json with values from environment
-CONFIG_JSON="$SCRIPT_DIR/secure-deploy.config.json"
-echo "📝 Generating deployment configuration..."
-cat > "$CONFIG_JSON" << EOF
-{
-  "network": "${NETWORK:-mainnet}",
-  "rpcUrl": "${RPC_URL}",
-  "ensDomain": "${ENS_DOMAIN}",
-  "safeAddress": "${SAFE_ADDRESS}",
-  "safeApiKey": "${SAFE_API_KEY}",
-  "ownerPrivateKey": "${OWNER_PRIVATE_KEY}",
-  "quiet": false,
-  "debug": false
-}
-EOF
+# Source directory for Next.js app
+SOURCE_DIR="$PROJECT_ROOT/dao portal/my-app"
+SOURCE_OUT_DIR="$SOURCE_DIR/out"
+OUT_DIR="$SCRIPT_DIR/out"
 
-echo "✅ Configuration generated"
+# Check if source directory exists
+if [ ! -d "$SOURCE_DIR" ]; then
+    echo "❌ Error: Source code directory not found at $SOURCE_DIR"
+    echo "   Expected Next.js app at: dao portal/my-app/"
+    exit 1
+fi
+
+# Check if source has been built
+if [ ! -d "$SOURCE_OUT_DIR" ]; then
+    echo "📦 Building Next.js static site..."
+    echo ""
+    cd "$SOURCE_DIR"
+    npm run build
+    
+    if [ ! -d "$SOURCE_OUT_DIR" ]; then
+        echo "❌ Error: Build failed - output directory not found at $SOURCE_OUT_DIR"
+        exit 1
+    fi
+    echo "✅ Build complete"
+    echo ""
+fi
+
+# Copy build output to launch/out/ (cleaning first to avoid stale files)
+echo "📋 Copying build output to deployment directory..."
+rm -rf "$OUT_DIR"
+cp -r "$SOURCE_OUT_DIR" "$OUT_DIR"
+
+# Remove any secure-deploy.config.json that might have been copied (shouldn't be in build)
+if [ -f "$OUT_DIR/secure-deploy.config.json" ]; then
+    echo "⚠️  Warning: Found secure-deploy.config.json in build output (removing it)"
+    rm "$OUT_DIR/secure-deploy.config.json"
+fi
+
+echo "✅ Build output ready in $OUT_DIR"
 echo ""
 echo "🚀 Deploying to ${ENS_DOMAIN}..."
 echo ""
 
-# Run Autark CLI deployment
+# Run Autark CLI deployment with command-line flags
 cd "$SCRIPT_DIR"
-autark deploy --config secure-deploy.config.json
+autark deploy "$OUT_DIR" \
+  --ens-domain "${ENS_DOMAIN}" \
+  --safe-address "${SAFE_ADDRESS}" \
+  --owner-private-key "${OWNER_PRIVATE_KEY}" \
+  --rpc-url "${RPC_URL}" \
+  --safe-api-key "${SAFE_API_KEY}" \
+  --network "${NETWORK:-mainnet}"
 
 echo ""
 echo "✅ Deployment complete!"
