@@ -13,6 +13,9 @@ node_modules/
 **/secure-deploy.config.yaml
 **/secure-deploy.config.json
 secure-deploy-config.yaml
+# Allow example/template files
+!**/secure-deploy.config.yaml.example
+!**/secure-deploy.config.json.example
 
 # Build outputs (should not be committed)
 **/out/

@@ -1,0 +1,31 @@
+# Secure Deploy Configuration Example
+# Copy this to secure-deploy.config.yaml and update values
+# Sensitive values are loaded from .env file via deploy script
+
+# Network Configuration
+network: "mainnet"
+# rpcUrl will be loaded from RPC_URL environment variable
+
+# ENS Configuration
+ensDomain: "fundamentalia.eth"
+# Override with ENS_DOMAIN env var if needed
+
+# Safe Multisig Configuration
+# safeAddress will be loaded from SAFE_ADDRESS environment variable
+# safeApiKey will be loaded from SAFE_API_KEY environment variable
+
+# Owner/Signer Configuration (for Safe operations)
+# ownerPrivateKey will be loaded from OWNER_PRIVATE_KEY environment variable
+
+# Storacha Configuration (optional, uses CLI by default)
+# storachaKey: ...
+# storachaProof: ...
+
+# GitHub Configuration (optional)
+# githubToken: ghp_...
+# githubRepo: owner/repo
+
+# CLI Options
+quiet: false
+debug: false
+

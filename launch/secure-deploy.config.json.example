@@ -1,0 +1,11 @@
+{
+  "network": "mainnet",
+  "rpcUrl": "https://eth-mainnet.g.alchemy.com/v2/YOUR_ALCHEMY_KEY",
+  "ensDomain": "fundamentalia.eth",
+  "safeAddress": "0x...",
+  "safeApiKey": "your_safe_api_key_here",
+  "ownerPrivateKey": "0x...",
+  "quiet": false,
+  "debug": false
+}
+
