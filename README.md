@@ -1,143 +1,128 @@
 # ENS DAO Governance Documentation Portal
 
-**Decentralized • Immutable • Team-Governed (Autark + ENS + Safe + IPFS)**
-
-A decentralized governance documentation portal for the ENS Protocol and DAO. This portal provides comprehensive information about ENS DAO governance (constitution, voting, working groups, proposals, participation) and is deployed as a **versioned, immutable frontend** via **Autark**, stored on **IPFS (Storacha)**, and gated by **Safe multisig**.
+Decentralized governance documentation portal for the ENS Protocol and DAO. This site aggregates constitution references, voting processes, working group details, proposal templates, and onboarding material. Deployments are versioned on ENS via Autark, replicated to IPFS (Storacha), and gated by Safe multisig approvals.
 
 ---
 
-## 🌐 Live Site
+## Live Site
 
-> Update these to your current production versions after each deploy.
+Update these links after each deployment.
 
-* **Production (ENS gateway):** `https://v11.fundamentalia.eth.link`
-  *(Example above; ENS gateways resolve **mainnet** only. Use your latest version, e.g. `v11`.)*
-* **IPFS Gateway (direct CID):** `https://bafybeig7fnclwf4giw676gpjxw2rludvhcijrudrbwbkhdyzgedv2w2l2e.ipfs.w3s.link`
+- Production gateway: `https://v11.fundamentalia.eth.link`
+- IPFS gateway (CID): `https://bafybeig7fnclwf4giw676gpjxw2rludrbwbkhdyzgedv2w2l2e.ipfs.w3s.link`
 
-Deployed via [Autark CLI](https://github.com/autark-dev/autark) and decentralized storage (IPFS via Storacha).
-
----
-
-## 🎯 What You Get
-
-* **Immutable versions**: `v0`, `v1`, `v2`… each pinned to an IPFS **CID** and permanently accessible.
-* **Human gatekeeping**: deployments require **Safe** approvals (e.g., **2/3** multisig).
-* **Readable URLs**: versioned ENS subdomains (`vN.fundamentalia.eth`) resolve on `.eth.limo`/`.eth.link` (mainnet).
-* **Auditability**: an on-chain history of what shipped, when, and by whom.
+Deployments use the Autark CLI with Storacha-backed storage.
 
 ---
 
-## 🧩 Prerequisites
+## Highlights
 
-* **Node.js v20+ / npm**
-* **Git**
-* **MetaMask** (or similar wallet)
-* **ENS domain** (e.g., `fundamentalia.eth`)
-
-  * **Wrapped** via ENS NameWrapper (required for fuses/immutability)
-* **Safe multisig** (recommended 2/3) on your target network
-* **Some ETH** on your target network (Safe + EOA gas)
-* **CLIs**:
-
-  * Autark: `npm install -g autark`
-  * Storacha: `npm install -g @storacha/client` (then `storacha login you@example.com`)
-
-> **Networks**
->
-> * **Mainnet** for production (resolves on `.eth.limo`/`.eth.link`)
-> * **Sepolia** for testing (use IPFS gateway to view; ENS gateways don’t resolve testnet)
+- Versioned ENS subdomains (`vN.fundamentalia.eth`) map to immutable IPFS CIDs.
+- Safe multisig approvals provide human gatekeeping for contenthash updates.
+- ENS gateways (`.eth.limo`, `.eth.link`) resolve mainnet deployments; IPFS gateways serve all networks.
+- Deployment history is transparent and auditable on-chain.
 
 ---
 
-## 🛠️ Technology Stack
+## Prerequisites
 
-* **Framework**: Next.js (Static Export)
-* **Deployment**: Autark CLI (ENS contenthash + versioned subdomains)
-* **Storage**: IPFS via Storacha
-* **Blockchain**: Ethereum (Sepolia for test / Mainnet for prod)
-* **ENS Domain**: `fundamentalia.eth`
+- Node.js 20+ and npm
+- Git
+- Wallet (MetaMask or similar)
+- ENS domain such as `fundamentalia.eth`, wrapped with NameWrapper for fuse controls
+- Safe multisig (recommended 2-of-3) on the target network
+- Sufficient ETH for Safe and EOA gas fees
+- Command-line tools:
+  - Autark CLI: `npm install -g autark`
+  - Storacha CLI: `npm install -g @storacha/client`
+
+Network guidance:
+
+- Mainnet deployments resolve on ENS gateways.
+- Sepolia deployments require direct IPFS access; ENS gateways do not index testnet records.
 
 ---
 
-## 📦 Project Structure
+## Technology Stack
+
+- Framework: Next.js (static export)
+- Deployment: Autark CLI (contenthash + versioned ENS subdomains)
+- Storage: IPFS via Storacha
+- Blockchain: Ethereum (Sepolia for testing, Mainnet for production)
+- ENS domain: `fundamentalia.eth`
+
+---
+
+## Project Structure
 
 ```
 basics/
-├── dao portal/                     # Source code directory
-│   └── my-app/                     # Next.js application
-│       ├── app/                    # Next.js app directory (routes, layouts)
-│       ├── components/             # React components
-│       ├── content/                # MDX content files
-│       ├── lib/                    # Utilities
-│       ├── public/                 # Static assets
-│       ├── out/                    # Build output (gitignored, generated)
-│       ├── package.json            # Dependencies
+├── dao portal/
+│   └── my-app/
+│       ├── app/
+│       ├── components/
+│       ├── content/
+│       ├── lib/
+│       ├── public/
+│       ├── out/
+│       ├── package.json
 │       └── next.config.ts
-├── launch/                         # Deployment directory
-│   ├── out/                        # Copied build output (generated)
-│   ├── deploy.sh                   # Build + deploy script (recommended path)
-│   ├── secure-deploy.config.json   # Autark config (sanitized template)
+├── launch/
+│   ├── out/
+│   ├── deploy.sh
+│   ├── secure-deploy.config.json
 │   └── secure-deploy.config.*.example
-├── .env                            # Environment variables (NOT committed)
-├── .env.example                    # Template for env vars
+├── .env
+├── .env.example
 ├── .gitignore
-├── log.md                          # Development log
-└── README.md                       # This file
+├── log.md
+└── README.md
 ```
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
-### 1) Clone & Install
+### 1. Clone and install
 
 ```bash
 git clone <your-repo-url>
 cd basics
-
-# Install Next.js app deps
 cd "dao portal/my-app"
 npm install
 ```
 
-### 2) Create & Fill `.env`
+### 2. Create `.env`
 
-From repo root:
+From the repository root:
 
 ```bash
 cd ../..
 cp .env.example .env
 ```
 
-Fill in `.env` (do **not** quote values; keep `0x` prefix on keys):
+Populate `.env` (no quotes; retain `0x` prefix for keys):
 
 ```bash
-# Choose ONE of these two; comment the other:
-# For MAINNET
+# Mainnet example
 RPC_URL=https://mainnet.infura.io/v3/<YOUR_PROJECT_ID>
 NETWORK=mainnet
 
-# For SEPOLIA (testing)
+# Sepolia example
 # RPC_URL=https://sepolia.infura.io/v3/<YOUR_PROJECT_ID>
 # NETWORK=sepolia
 
-# ENS
 ENS_DOMAIN=fundamentalia.eth
-
-# Safe (network-specific address!)
 SAFE_ADDRESS=0xYourMainnetOrSepoliaSafe
 SAFE_API_KEY=sk_live_or_test_from_developer.safe.global
-
-# EOA private key that owns the ENS parent (personal-owns mode)
-# or is a signer (safe-owns mode)
 OWNER_PRIVATE_KEY=0x<64-hex-chars>
 ```
 
-> Keep `.env` **gitignored**.
+Keep `.env` out of version control.
 
-### 3) Configure Autark (JSON)
+### 3. Configure Autark
 
-Create `launch/secure-deploy.config.json` (or use your existing one), **matching your network**:
+Create `launch/secure-deploy.config.json` (or edit your existing configuration):
 
 ```json
 {
@@ -149,15 +134,17 @@ Create `launch/secure-deploy.config.json` (or use your existing one), **matching
 }
 ```
 
-> * For **Sepolia**, set `"network": "sepolia"` and a Sepolia RPC URL.
-> * Omit `deploymentMode` to let Autark auto-detect; including it is fine.
-> * If your **Safe owns the parent ENS**, Autark will batch “create subdomain + set contenthash” in one proposal.
+Notes:
+
+- For Sepolia deployments set `network` to `sepolia` and point `rpcUrl` at a Sepolia endpoint.
+- Omit `deploymentMode` if you prefer Autark auto-detection.
+- If the Safe owns the parent ENS name, Autark batches subdomain creation and contenthash updates.
 
 ---
 
-## 🧪 Development
+## Development
 
-**Run dev server:**
+Run the development server:
 
 ```bash
 cd "dao portal/my-app"
@@ -165,7 +152,7 @@ npm run dev
 # http://localhost:3000
 ```
 
-**Build static site:**
+Build the static site:
 
 ```bash
 cd "dao portal/my-app"
@@ -175,48 +162,41 @@ npm run build
 
 ---
 
-## 🚢 Deployment
+## Deployment
 
-### Option A — Recommended: Scripted (build + deploy)
-
-From repo root:
+### Scripted deployment (recommended)
 
 ```bash
 cd launch
 ./deploy.sh
 ```
 
-What `deploy.sh` should do (summary):
+Script responsibilities:
 
-* Build the Next.js app if `out/` is missing or stale
-* Copy `dao portal/my-app/out/` → `launch/out/`
-* Load env from `../.env`
-* Validate required env vars
-* Upload to IPFS via Storacha
-* Invoke Autark to create the next version (`vN.fundamentalia.eth`) and propose the Safe transaction
+- Build the Next.js app if `out/` is missing or stale.
+- Copy `dao portal/my-app/out/` into `launch/out/`.
+- Load environment variables from `../.env`.
+- Validate required entries (RPC URL, Safe credentials, ENS domain, owner key).
+- Upload the static bundle to IPFS through Storacha.
+- Invoke Autark to publish the next `vN.fundamentalia.eth` version and create the Safe proposal.
 
-**Typical Autark behavior:**
-
-* **Personal-owns-parent**: EOA creates `vN.` subdomain → Safe proposal **sets contenthash**
-* **Safe-owns-parent**: Safe proposal **creates subdomain + sets contenthash** atomically
-
-When prompted:
+Autark prompts:
 
 ```
 Burn CANNOT_UNWRAP fuse now? [y/N]:
 ```
 
-* Answer **`y`** if the **parent is wrapped** on this network and you’re ready to lock immutability for that subname.
-* Otherwise **`N`** (you can burn later via Safe UI).
+- Answer `y` only if the parent name is wrapped and you are ready to enforce immutability.
+- Otherwise answer `N` and burn later through the Safe interface.
 
-### Option B — Manual
+### Manual deployment
 
 ```bash
-# 1) Build
+# Build
 cd "dao portal/my-app"
 npm run build
 
-# 2) Deploy
+# Deploy
 cd ../../launch
 export $(grep -v '^#' ../.env | xargs)
 
@@ -229,73 +209,60 @@ autark deploy out/ \
   --network "${NETWORK:-mainnet}"
 ```
 
-> Some Autark builds do **not** accept all flags above; the `--config` + env-vars approach is most reliable. If a flag is “unknown option”, ensure it’s set in config/env instead.
+Some Autark versions accept fewer CLI flags; prefer configuration files plus environment variables if a flag is rejected.
 
 ---
 
-## 🔑 Safe (2/3) Approval Flow
+## Safe Approval Flow
 
-1. After `autark deploy`, open the **Safe link** printed in the terminal.
-2. In **Safe UI → Transactions → Queue**, open the pending proposal:
+1. After `autark deploy`, open the Safe transaction link printed in the terminal.
+2. In Safe UI (`Transactions → Queue`), review the pending proposal:
+   - Personal-owns flows: single `setContenthash` call.
+   - Safe-owns flows: `createSubdomain` and `setContenthash` batched together.
+3. Collect the required multisig confirmations (for example two of three owners).
+4. Execute the transaction once the threshold is met.
+5. Wait for on-chain confirmation (usually 15–30 seconds).
 
-   * **Personal-owns**: single op (**setContenthash** for `vN.subdomain`)
-   * **Safe-owns**: batched ops (**create subdomain + setContenthash**)
-3. **Two of three** owners click **Confirm**.
-4. Click **Execute** (any signer can execute once threshold met).
-5. Wait ~15–30s for on-chain confirmation.
-
-**Verify version:**
+Verification commands:
 
 ```bash
-autark status --subdomain vN.fundamentalia.eth \
-  --config ./launch/secure-deploy.config.json
+autark status --subdomain vN.fundamentalia.eth --config ./launch/secure-deploy.config.json
 ```
 
-**Open site (mainnet):**
+Gateway checks:
 
-```
-https://vN.fundamentalia.eth.limo
-```
-
-(*Propagation on gateways: typically 5–15 minutes.*)
-
-**Open via IPFS gateway (any network):**
-Autark prints a gateway link for the CID, e.g.:
-
-```
-https://<CID>.ipfs.w3s.link
-```
+- `https://vN.fundamentalia.eth.limo`
+- `https://<CID>.ipfs.w3s.link`
 
 ---
 
-## 🧭 Networks & Gateways
+## Network Guidance
 
-* **Mainnet**: `.eth.limo` / `.eth.link` **work** (gateways index mainnet ENS).
-* **Sepolia**: `.eth.limo` / `.eth.link` **do not** resolve testnet ENS.
-  View via **IPFS gateway** links until you move to mainnet.
-
----
-
-## 🧱 Common Pitfalls & Fixes
-
-| Symptom                                           | Likely Cause                                 | Fix                                                                                                                                             |
-| ------------------------------------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Missing required configuration: ownerPrivateKey` | Key not loaded; wrong var name; missing `0x` | Keep **`OWNER_PRIVATE_KEY`** in `.env` (no quotes, with `0x`); `set -a; source .env; set +a`; ensure you run from the folder with `.env`/config |
-| Fuse burn revert (`setFuses` unauthorized)        | Burning on wrong network or wrong owner      | Burn on the **same network** where the ENS is wrapped; **owner** (EOA or Safe) must execute the fuse burn                                       |
-| No proposal in Safe UI                            | Wrong `SAFE_ADDRESS` / network / API key     | Confirm network, **mainnet vs Sepolia**; ensure **Safe API key** matches the network; re-run                                                    |
-| `.eth.limo` doesn’t show the site                 | You’re on Sepolia                            | Use the IPFS gateway link printed by Autark; move to mainnet to use `.limo`                                                                     |
-| “Unknown option” when passing flags               | CLI version mismatch                         | Prefer config + env vars; keep flags minimal (`--config`, `--network`)                                                                          |
+- Mainnet: ENS gateways resolve the site directly after the Safe transaction confirms.
+- Sepolia: use the IPFS gateway link until the project is promoted to mainnet.
 
 ---
 
-## 🔒 Security
+## Troubleshooting
 
-* **Never commit secrets** (`.env`, any `secure-deploy.config.*` with secrets)
-* Private keys must be **`0x` + 64 hex chars**, no quotes
-* Prefer hardware wallets for mainnet signers
-* Use a distinct Safe API key per network (Sepolia vs Mainnet)
+| Symptom                                           | Likely cause                                 | Recommended fix                                                                                                                               |
+| ------------------------------------------------- | -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Missing required configuration: ownerPrivateKey` | Variable missing or without `0x` prefix      | Keep `OWNER_PRIVATE_KEY` in `.env` without quotes, source the file (`set -a; source .env; set +a`), and execute commands from the repo root. |
+| Fuse burn revert (`setFuses` unauthorized)        | Wrong network or signer                      | Burn fuses on the network where the name is wrapped using the controlling owner (EOA or Safe).                                                |
+| No proposal in Safe UI                            | Incorrect Safe address, network, or API key  | Confirm the chain, Safe address, and API key variant (mainnet vs Sepolia), then redeploy.                                                     |
+| `.eth.limo` does not resolve                      | Deployment on Sepolia                        | Use the IPFS gateway link generated by Autark; ENS gateways index only mainnet.                                                               |
+| `Unknown option` error when passing flags         | Autark CLI version mismatch                  | Move configuration into `secure-deploy.config.json` and rely on environment variables for sensitive values.                                   |
 
-**`.gitignore` must include:**
+---
+
+## Security
+
+- Never commit secrets (`.env`, populated `secure-deploy.config.*`).
+- Private keys must be `0x` followed by 64 hexadecimal characters and should remain unquoted.
+- Use hardware wallets for production signers when possible.
+- Maintain separate Safe API keys per network.
+
+Required ignore rules:
 
 ```
 .env
@@ -308,16 +275,16 @@ https://<CID>.ipfs.w3s.link
 
 ---
 
-### Quick Reference (Cheat Sheet)
+## Quick Reference
 
 ```bash
-# Dev
+# Development
 cd "dao portal/my-app" && npm run dev
 
 # Build
 cd "dao portal/my-app" && npm run build
 
-# Scripted deploy (recommended)
+# Scripted deploy
 cd launch && ./deploy.sh
 
 # Manual deploy
@@ -331,54 +298,45 @@ autark status --subdomain vN.fundamentalia.eth --config ./launch/secure-deploy.c
 
 ---
 
-## 🔒 Security
+## Features
 
-**Important Security Notes:**
+- Comprehensive governance documentation covering constitution, voting procedures, and proposal lifecycle.
+- Working group overviews for Meta-Governance, Ecosystem, and Public Goods.
+- Guidance on token distribution, delegation flows, and voting mechanics.
+- Organizational references for the ENS Foundation, Security Council, Endowment, and operational wallets.
+- Responsive design optimised for desktop and mobile clients.
+- Fully decentralized hosting via ENS contenthash records and IPFS distribution.
+- Information architecture tuned for onboarding, voting, working groups, and organizational context.
 
-- ⚠️ **Never commit sensitive files**: The `.env` file and `secure-deploy.config.yaml` contain private keys and API keys
-- ✅ All sensitive files are configured in `.gitignore`
-- ✅ Use `.env.example` as a template for configuration
-- ✅ Private keys are stored in `.env` and should never be shared or committed
+---
 
-### Files to Never Commit
+## Future Enhancements
 
-- `.env` and `.env.local`
-- `**/secure-deploy.config.yaml` (except `.example` files)
-- `**/secure-deploy.config.json` (except `.example` files)
-- `**/out/` (build outputs)
-- `**/.next/` (Next.js build cache)
-- `**/node_modules/` (dependencies)
+- Real-time proposal status integration.
+- Expanded voting interface support.
+- Delegate discovery and profile tooling.
+- Proposal authoring and submission workflows.
 
-## 📝 Development Log
+---
 
-See [log.md](./log.md) for a detailed development history and milestones.
+## Development Log
 
-## 🌟 Features
+See `log.md` for milestone history and release notes.
 
-- **Comprehensive Governance Documentation**: Complete guides on ENS DAO Constitution, voting procedures, and all proposal types
-- **Working Group Details**: In-depth information about Meta-Governance, Ecosystem, and Public Goods working groups
-- **Token & Delegation Guides**: Complete information about ENS token distribution, delegation process, and voting mechanics
-- **DAO Organization Info**: Details about the ENS Foundation, Security Council, Endowment, and operational wallets
-- **Mobile Responsive Design**: Fully optimized for mobile devices with proper text wrapping and overflow handling
-- **Fully Decentralized**: Hosted on ENS domains using Autark CLI and decentralized storage
-- **Easy Navigation**: Organized categories for Getting Started, Voting, Working Groups, and Organization
+---
 
-## 🔮 Future Enhancements
+## License
 
-- Real-time proposal status updates
-- Enhanced voting interface integration
-- Delegate discovery and information
-- Proposal creation and submission interface
+MIT License
 
-## 📄 License
+---
 
-MIT
+## Contributing
 
-## 🤝 Contributing
+The project is prepared for ENS DAO community review. Contributions and feedback are welcome through pull requests or issues.
 
-This project is prepared for presentation to the ENS DAO community. Contributions and feedback from the ENS community are welcome.
+---
 
-## 📞 Contact
+## Contact
 
-For questions or contributions related to this governance portal, please reach out through the [ENS DAO Governance Forum](https://discuss.ens.domains/).
-
+For questions or contributions related to this governance portal, reach out via the [ENS DAO Governance Forum](https://discuss.ens.domains/).
