@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "cross-env ESLINT_USE_FLAT_CONFIG=false eslint ."
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -63,11 +63,11 @@
     "zod": "3.25.76"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.1.0",
     "@tailwindcss/postcss": "^4.1.9",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cross-env": "^7.0.3",
     "eslint": "^9.15.0",
     "eslint-config-next": "^16.0.0",
     "postcss": "^8.5",
