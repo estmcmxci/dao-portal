@@ -11,7 +11,7 @@ export function EnsHeader() {
           <div className="absolute inset-0 bg-gradient-to-br from-gray-200/50 to-gray-300/30 blur-xl" />
           <div className="relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl shadow-lg sm:h-32 sm:w-32 sm:rounded-3xl">
             <img
-              src="/DAO.svg"
+                    src="/icon.svg"
               alt="DAO Logo"
               className="h-full w-full object-contain"
             />

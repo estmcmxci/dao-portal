@@ -15,9 +15,6 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Governance Documentation",
   description: "Comprehensive documentation for ENS DAO governance, including the Constitution, voting processes, working groups, and how to participate in the DAO",
-  icons: {
-    icon: "/DAO.svg",
-  },
 };
 
 export const viewport: Viewport = {
