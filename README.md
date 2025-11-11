@@ -9,7 +9,7 @@ Decentralized governance documentation portal for the ENS Protocol and DAO. This
 Update these links after each deployment.
 
 - Production gateway: `https://v11.fundamentalia.eth.link`
-- IPFS gateway (CID): `https://bafybeig7fnclwf4giw676gpjxw2rludrbwbkhdyzgedv2w2l2e.ipfs.w3s.link`
+- IPFS gateway (CID): `https://bafybeig7fnclwf4giw676gpjxw2rludvhcijrudrbwbkhdyzgedv2w2l2e.ipfs.w3s.link` 
 
 Deployments use the Autark CLI with Storacha-backed storage.
 
